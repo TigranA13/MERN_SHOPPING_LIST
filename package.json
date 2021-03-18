@@ -1,6 +1,9 @@
 {
   "name": "mearn_shoppinglist",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.x"
+  },
   "description": "Shopping list build with th MERN stack",
   "main": "server.js",
   "scripts": {
