@@ -8,8 +8,12 @@ import PropTypes from 'prop-types';
 
 class ShoppingList extends Component {
 
-  componentDidMount(): void {
+  componentDidMount() {
     this.props.getItems();
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return !!!nextProps.item.length
   }
 
   onDeleteClick = id => {
@@ -24,7 +28,7 @@ class ShoppingList extends Component {
         <ListGroup>
           <TransitionGroup className={'shopping-list'}>
             {
-              items.map(({ _id, name }) => (
+              items.length && items.map(({ _id, name }) => (
                 <CSSTransition key={_id} timeout={500} classNames={'fade'}>
                   <ListGroupItem>
                     <Button
@@ -41,6 +45,13 @@ class ShoppingList extends Component {
               ))
             }
           </TransitionGroup>
+          {
+            !items.length && <TransitionGroup className={'shopping-list'}>
+              <CSSTransition key={'notFound'} timeout={2000} classNames={'fade'}>
+                <ListGroupItem style={{'textAlign': 'center'}}>No Item Added.</ListGroupItem>
+              </CSSTransition>
+            </TransitionGroup>
+          }
         </ListGroup>
       </Container>
     );
@@ -59,4 +70,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   { getItems, deleteItem }
-  )(ShoppingList);
+)(ShoppingList);
